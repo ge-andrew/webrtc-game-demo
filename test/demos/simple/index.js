@@ -12,9 +12,11 @@ const db = getDatabase();
 
 var dataChannel;
 
-var candidate = null;
-
 var currentHostID = "";
+
+function textareaPrint(s){
+    document.getElementById("output").value += s + "\n";
+}
 
 const myConnection = new RTCPeerConnection(iceServerList, {
     optional: [
@@ -23,9 +25,6 @@ const myConnection = new RTCPeerConnection(iceServerList, {
         }
     ]
 });
-
-
-
 
 function openDataChannel() { 
      
@@ -40,7 +39,8 @@ function openDataChannel() {
         const channel = event.channel;
 
         channel.onmessage = (event) => {
-            console.log("Got message:", event.data)
+            console.log("Got message:", event.data);
+            textareaPrint(`New message: ${event.data}`);
         }
     }
 
@@ -69,6 +69,7 @@ async function hostRoom() {
     const id = generateRandomString(10);
     currentHostID = id;
     console.log(id);
+    textareaPrint(`Hosted session with ID: ${id}`)
 
     myConnection.onicecandidate = function (event) {
         console.log("found ice candidate",event.candidate);
@@ -110,6 +111,7 @@ async function joinRoom(id) {
         return;
     }
     console.log("querying:", id)
+    textareaPrint(`Joining session with ID: ${id}`)
 
     myConnection.onicecandidate = (event) => {
         event.candidate && push(ref(db, 'webrtc/' + id + '/answerCandidates'), event.candidate.toJSON());
