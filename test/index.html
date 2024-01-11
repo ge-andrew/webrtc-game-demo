@@ -14,11 +14,10 @@
 
     <script class="mocha-init">
       mocha.setup('bdd');
-      mocha.checkLeaks();
     </script>
-    <script src="./lib/webrtc/test.FirebaseUtil.js"></script>
-    <script src="./lib/webrtc/test.WebRTCClient.js"></script>
-    <script class="mocha-exec">
+    <script src="./lib/webrtc/test.FirebaseUtil.js" type="module"></script>
+    <script src="./lib/webrtc/test.WebRTCClient.js" type="module"></script>
+    <script class="mocha-exec" type="module">
       mocha.run();
     </script>
   </body>
